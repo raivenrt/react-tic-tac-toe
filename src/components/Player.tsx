@@ -1,4 +1,3 @@
-import { useState } from "react";
 import usePlayer from "../hooks/usePlayer";
 
 interface PlayerProps {
