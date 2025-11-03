@@ -1,4 +1,5 @@
 import { useState } from "react";
+import usePlayer from "../hooks/usePlayer";
 
 interface PlayerProps {
   name: string;
@@ -6,26 +7,7 @@ interface PlayerProps {
 }
 
 const Player: React.FC<PlayerProps> = ({ name, symbol }) => {
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [playerName, setPlayerName] = useState<string>(name);
-
-  function handleEditClick() {
-    setIsEditing((prev) => !prev);
-  }
-
-  function handleNameChange(ev: React.ChangeEvent<HTMLInputElement>) {
-    setPlayerName(ev.target.value);
-  }
-
-  let editablePlayerName = <span className="player-name">{playerName}</span>;
-  let editButton = "Edit";
-
-  if (isEditing) {
-    editablePlayerName = (
-      <input type="text" required minLength={2} maxLength={74} value={playerName} onChange={handleNameChange} />
-    );
-    editButton = "Save";
-  }
+  const { editButtonCaption, editablePlayerName, handleEditClick } = usePlayer(name);
 
   return (
     <li>
@@ -34,7 +16,7 @@ const Player: React.FC<PlayerProps> = ({ name, symbol }) => {
 
         <span className="player-symbol">{symbol}</span>
       </span>
-      <button onClick={handleEditClick}>{editButton}</button>
+      <button onClick={handleEditClick}>{editButtonCaption}</button>
     </li>
   );
 };
