@@ -1,4 +1,4 @@
-import { useState } from "react";
+import type { GameTurn } from "../hooks/useGameTurns";
 
 const INITIAL_GAMEBOARD: [string | null, string | null, string | null][] = [
   [null, null, null],
@@ -6,23 +6,16 @@ const INITIAL_GAMEBOARD: [string | null, string | null, string | null][] = [
   [null, null, null],
 ];
 
-const GameBoard = ({
-  onSelectSquare,
-  activePlayerSymbol,
-}: {
-  onSelectSquare: () => void;
-  activePlayerSymbol: string;
-}) => {
-  const [gameBoard, setGameBoard] = useState(INITIAL_GAMEBOARD);
+interface GameBoardProps {
+  onSelectSquare: (rowIndex: number, colIndex: number) => void;
+  turns: GameTurn[];
+}
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  function handleSelectSquare(rowIndex: number, colIndex: number, playerSymbol: string) {
-    setGameBoard((prevGameBoard) => {
-      const updatedGameBoard = [...prevGameBoard];
-      updatedGameBoard[rowIndex][colIndex] = playerSymbol;
-      return updatedGameBoard;
-    });
-    onSelectSquare();
+const GameBoard: React.FC<GameBoardProps> = ({ onSelectSquare, turns }) => {
+  let gameBoard = INITIAL_GAMEBOARD;
+
+  for (const turn of turns) {
+    gameBoard[turn.row][turn.col] = turn.playerSymbol;
   }
 
   return (
@@ -31,8 +24,8 @@ const GameBoard = ({
         <li key={`row#${rowIndex}`}>
           <ol>
             {row.map((playerSymbol, colIndex) => (
-              <li key={`row#${colIndex}`}>
-                <button onClick={() => handleSelectSquare(rowIndex, colIndex, activePlayerSymbol)}>
+              <li key={`${playerSymbol ?? "col"}#${colIndex}`}>
+                <button onClick={() => onSelectSquare(rowIndex, colIndex)}>
                   {playerSymbol}
                 </button>
               </li>

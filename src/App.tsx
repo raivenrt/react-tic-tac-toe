@@ -1,24 +1,28 @@
-import { useState } from "react";
 import GameBoard from "./components/GameBoard";
 import Player from "./components/Player";
+import Log from "./components/Log";
+import useGameTurns from "./hooks/useGameTurns";
 
 function App() {
-  const [activePlayer, setActivePlayer] = useState("X");
-
-  function handleSelect() {
-    setActivePlayer((curActivePlayer) => (curActivePlayer === "X" ? "O" : "X"));
-  }
-
+  const { activePlayerSymbol, gameTurns, handleTurn } = useGameTurns();
   return (
     <main>
       <section id="game-container">
         <ol id="players" className="highlight-player">
-          <Player name="Player 1" symbol="X" activePlayer={activePlayer} />
-          <Player name="Player 2" symbol="O" activePlayer={activePlayer} />
+          <Player
+            name="Player 1"
+            symbol="X"
+            activePlayer={activePlayerSymbol}
+          />
+          <Player
+            name="Player 2"
+            symbol="O"
+            activePlayer={activePlayerSymbol}
+          />
         </ol>
-        <GameBoard onSelectSquare={handleSelect} activePlayerSymbol={activePlayer} />
+        <GameBoard onSelectSquare={handleTurn} turns={gameTurns} />
       </section>
-      <section>LOG</section>
+      <Log turns={gameTurns} />
     </main>
   );
 }
