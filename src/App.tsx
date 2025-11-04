@@ -4,7 +4,15 @@ import Log from "./components/Log";
 import useGameTurns from "./hooks/useGameTurns";
 
 function App() {
-  const { activePlayerSymbol, gameTurns, handleTurn } = useGameTurns();
+  const {
+    activePlayerSymbol,
+    gameTurns,
+    handleTurn,
+    winner,
+    playAgain,
+    winners,
+  } = useGameTurns();
+
   return (
     <main>
       <section id="game-container">
@@ -14,12 +22,22 @@ function App() {
             symbol="X"
             activePlayer={activePlayerSymbol}
           />
+          <h4>
+            {winners.x} - {winners.o}
+          </h4>
           <Player
             name="Player 2"
             symbol="O"
             activePlayer={activePlayerSymbol}
           />
         </ol>
+        {winner && (
+          <div id="game-over">
+            <h2>Loser {winner === "O" ? "X" : "O"}</h2>
+            <p>Good game! Winner: {winner}</p>
+            <button onClick={() => playAgain()}>Play again</button>
+          </div>
+        )}
         <GameBoard onSelectSquare={handleTurn} turns={gameTurns} />
       </section>
       <Log turns={gameTurns} />

@@ -12,11 +12,13 @@ interface GameBoardProps {
 }
 
 const GameBoard: React.FC<GameBoardProps> = ({ onSelectSquare, turns }) => {
-  let gameBoard = INITIAL_GAMEBOARD;
+  let gameBoard = INITIAL_GAMEBOARD.map((row) => [...row]);
 
   for (const turn of turns) {
     gameBoard[turn.row][turn.col] = turn.playerSymbol;
   }
+
+  console.log(gameBoard, turns);
 
   return (
     <ol id="game-board">
@@ -25,7 +27,10 @@ const GameBoard: React.FC<GameBoardProps> = ({ onSelectSquare, turns }) => {
           <ol>
             {row.map((playerSymbol, colIndex) => (
               <li key={`${playerSymbol ?? "col"}#${colIndex}`}>
-                <button onClick={() => onSelectSquare(rowIndex, colIndex)}>
+                <button
+                  disabled={!!playerSymbol}
+                  onClick={() => onSelectSquare(rowIndex, colIndex)}
+                >
                   {playerSymbol}
                 </button>
               </li>

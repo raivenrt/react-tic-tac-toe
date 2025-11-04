@@ -69,8 +69,7 @@ h1 {
 #players li {
   display: flex;
   align-items: center;
-  width: 50%;
-  border: 2px solid transparent;
+  border: 2px solid rgb(147, 130, 24);
 }
 
 #players.highlight-player li.active {
