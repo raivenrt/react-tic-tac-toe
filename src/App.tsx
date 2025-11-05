@@ -2,6 +2,7 @@ import GameBoard from "./components/GameBoard";
 import Player from "./components/Player";
 import Log from "./components/Log";
 import useGameTurns from "./hooks/useGameTurns";
+import GameOver from "./components/GameOver";
 
 function App() {
   const {
@@ -31,12 +32,8 @@ function App() {
             activePlayer={activePlayerSymbol}
           />
         </ol>
-        {winner && (
-          <div id="game-over">
-            <h2>Loser {winner === "O" ? "X" : "O"}</h2>
-            <p>Good game! Winner: {winner}</p>
-            <button onClick={() => playAgain()}>Play again</button>
-          </div>
+        {typeof winner === "string" && (
+          <GameOver winner={winner} playAgain={playAgain} />
         )}
         <GameBoard onSelectSquare={handleTurn} turns={gameTurns} />
       </section>
