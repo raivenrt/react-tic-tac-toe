@@ -6,8 +6,8 @@ interface GameOverProps {
 const GameOver = ({ winner, playAgain }: GameOverProps) => {
   return (
     <div id="game-over">
-      <h2>Loser {winner === "O" ? "X" : "O"}</h2>
-      <p>Good game! Winner: {winner}</p>
+      <h2>Game Over</h2>
+      <p>{winner === "draw" ? "It's a draw!" : `The winner is ${winner}`} </p>
       <button onClick={() => playAgain()}>Play again</button>
     </div>
   );

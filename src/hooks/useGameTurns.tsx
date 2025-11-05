@@ -55,22 +55,21 @@ const WINNING_COMBINATIONS = [
 function checkWinner(gameTurns: GameTurn[]) {
   const playerSymbol = gameTurns[0]?.playerSymbol;
 
-  if (gameTurns.length >= 4) {
-    ROOT_COMBINATIONS_LOOP: for (const combinations of WINNING_COMBINATIONS) {
-      const isWinner = combinations.every((combination) =>
-        gameTurns.some(
-          (turn) =>
-            turn.row === combination.row &&
-            turn.col === combination.column &&
-            turn.playerSymbol === playerSymbol
-        )
-      );
+  if (!(gameTurns.length >= 4)) return false;
 
-      if (isWinner) return playerSymbol;
-    }
+  ROOT_COMBINATIONS_LOOP: for (const combinations of WINNING_COMBINATIONS) {
+    const isWinner = combinations.every((combination) =>
+      gameTurns.some(
+        (turn) =>
+          turn.row === combination.row &&
+          turn.col === combination.column &&
+          turn.playerSymbol === playerSymbol
+      )
+    );
+
+    if (isWinner) return playerSymbol;
+    else if (gameTurns.length === 9) return "draw";
   }
-
-  return false;
 }
 const useGameTurns = () => {
   const [winners, setWinners] = useState<{ x: number; o: number }>({
